@@ -10,32 +10,38 @@ function appleFall(apples, i) {
     apples[i] = temp;
   }
 
-  let left = 0;
-  let right = 1;
+  let fallenTotal = 1;
+  let checkedFallenIndex = 0;
 
-  while (right < apples.length) {
-    const lastFallenApple = apples[left];
-    const { x, y, z, r } = lastFallenApple;
+  while (checkedFallenIndex < fallenTotal) {
+    let compareIndex = fallenTotal;
 
-    const target = apples[right];
+    const fallenApple = apples[checkedFallenIndex];
+    const { x, y, z, r } = fallenApple;
 
-    const safeZ = target.z - target.r > z + r;
-    const safeX = target.x + target.r < x - r || target.x - target.r > x + r;
-    const safeY = target.y + target.r < y - r || target.y - target.r > y + r;
+    while (compareIndex < apples.length) {
+      const target = apples[compareIndex];
 
-    if (!safeZ && (!safeX || !safeY)) {
-      left = left + 1;
-      const temp = apples[left];
-      apples[left] = apples[right];
-      apples[right] = temp;
+      const safeZ = target.z - target.r > z + r;
+      const safeX = target.x + target.r < x - r || target.x - target.r > x + r;
+      const safeY = target.y + target.r < y - r || target.y - target.r > y + r;
+
+      if (!safeZ && (!safeX || !safeY)) {
+        const temp = apples[fallenTotal];
+        apples[fallenTotal] = apples[compareIndex];
+        apples[compareIndex] = temp;
+
+        fallenTotal = fallenTotal + 1;
+      }
+
+      compareIndex = compareIndex + 1;
     }
 
-    right++;
-    continue;
+    checkedFallenIndex = checkedFallenIndex + 1;
   }
 
-  console.log({ apples, left, right });
-  const result = apples.length - (left + 1);
+  // console.log({ apples, left, right });
+  const result = apples.length - fallenTotal;
   return result.toString();
 }
 
