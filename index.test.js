@@ -21,7 +21,7 @@ test('Single Collision', () => {
   expect(appleFall(apples, index)).toBe('4');
 });
 
-test.skip('Cascade', () => {
+test('Cascade', () => {
   const apples = [
     { x: 0, y: 500, z: 100, r: 3 },
     { x: 0, y: 0, z: 0, r: 500 },

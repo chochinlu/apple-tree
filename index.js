@@ -1,3 +1,17 @@
+// solution from https://www.xarg.org/puzzle/codingame/apple-tree/
+function hitNew(a, b) {
+  var dx = b.x - a.x;
+  var dy = b.y - a.y;
+  var pr = b.r + a.r;
+
+  // touch horizontally?
+  if (dx * dx + dy * dy > pr * pr) {
+    return false;
+  }
+  return b.z < a.z;
+}
+
+// mine -> cann't pass the cascade situations.
 function hitOri(fallenApple, target) {
   const { x, y, z, r } = fallenApple;
 
@@ -8,7 +22,7 @@ function hitOri(fallenApple, target) {
   return !safeZ && (!safeX || !safeY);
 }
 
-const hit = (fallenApple, target) => hitOri(fallenApple, target);
+const hit = (fallenApple, target) => hitNew(fallenApple, target);
 
 function appleFall(apples, i) {
   if (apples.length === 0 || apples.length === 1) {
